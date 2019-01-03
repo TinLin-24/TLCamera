@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04F41B3321DDE2CC0087A792 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F41B3221DDE2CC0087A792 /* AppDelegate.m */; };
+		04F41B3B21DDE2CE0087A792 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04F41B3A21DDE2CE0087A792 /* Assets.xcassets */; };
+		04F41B3E21DDE2CE0087A792 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F41B3C21DDE2CE0087A792 /* LaunchScreen.storyboard */; };
+		04F41B4121DDE2CE0087A792 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F41B4021DDE2CE0087A792 /* main.m */; };
+		04F41B5721DDE3A80087A792 /* UIAlertController+TLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F41B5021DDE3A80087A792 /* UIAlertController+TLExtension.m */; };
+		04F41B5A21DDE3A80087A792 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F41B5421DDE3A80087A792 /* BaseViewController.m */; };
+		04F41B6321DDE5640087A792 /* TLCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F41B6221DDE5640087A792 /* TLCameraViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		04F41B2E21DDE2CC0087A792 /* TLCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TLCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04F41B3121DDE2CC0087A792 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		04F41B3221DDE2CC0087A792 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		04F41B3A21DDE2CE0087A792 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04F41B3D21DDE2CE0087A792 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		04F41B3F21DDE2CE0087A792 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04F41B4021DDE2CE0087A792 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		04F41B4821DDE3A80087A792 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		04F41B4921DDE3A80087A792 /* TLMarcos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMarcos.h; sourceTree = "<group>"; };
+		04F41B4A21DDE3A80087A792 /* TLConstInline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLConstInline.h; sourceTree = "<group>"; };
+		04F41B4B21DDE3A80087A792 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		04F41B4E21DDE3A80087A792 /* UIAlertController+TLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+TLExtension.h"; sourceTree = "<group>"; };
+		04F41B5021DDE3A80087A792 /* UIAlertController+TLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+TLExtension.m"; sourceTree = "<group>"; };
+		04F41B5421DDE3A80087A792 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		04F41B5621DDE3A80087A792 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		04F41B6121DDE5640087A792 /* TLCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLCameraViewController.h; sourceTree = "<group>"; };
+		04F41B6221DDE5640087A792 /* TLCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLCameraViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		04F41B2B21DDE2CC0087A792 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		04F41B2521DDE2CC0087A792 = {
+			isa = PBXGroup;
+			children = (
+				04F41B5221DDE3A80087A792 /* Base */,
+				04F41B4721DDE3A80087A792 /* Macros */,
+				04F41B4C21DDE3A80087A792 /* Utils */,
+				04F41B5C21DDE50B0087A792 /* TLCamera */,
+				04F41B3021DDE2CC0087A792 /* Supporting Files */,
+				04F41B2F21DDE2CC0087A792 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		04F41B2F21DDE2CC0087A792 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				04F41B2E21DDE2CC0087A792 /* TLCamera.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		04F41B3021DDE2CC0087A792 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				04F41B3121DDE2CC0087A792 /* AppDelegate.h */,
+				04F41B3221DDE2CC0087A792 /* AppDelegate.m */,
+				04F41B3A21DDE2CE0087A792 /* Assets.xcassets */,
+				04F41B3C21DDE2CE0087A792 /* LaunchScreen.storyboard */,
+				04F41B3F21DDE2CE0087A792 /* Info.plist */,
+				04F41B4021DDE2CE0087A792 /* main.m */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		04F41B4721DDE3A80087A792 /* Macros */ = {
+			isa = PBXGroup;
+			children = (
+				04F41B4821DDE3A80087A792 /* Header.h */,
+				04F41B4921DDE3A80087A792 /* TLMarcos.h */,
+				04F41B4A21DDE3A80087A792 /* TLConstInline.h */,
+				04F41B4B21DDE3A80087A792 /* PrefixHeader.pch */,
+			);
+			path = Macros;
+			sourceTree = "<group>";
+		};
+		04F41B4C21DDE3A80087A792 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				04F41B4D21DDE3A80087A792 /* Extension */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		04F41B4D21DDE3A80087A792 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				04F41B4E21DDE3A80087A792 /* UIAlertController+TLExtension.h */,
+				04F41B5021DDE3A80087A792 /* UIAlertController+TLExtension.m */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		04F41B5221DDE3A80087A792 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				04F41B5421DDE3A80087A792 /* BaseViewController.m */,
+				04F41B5621DDE3A80087A792 /* BaseViewController.h */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		04F41B5C21DDE50B0087A792 /* TLCamera */ = {
+			isa = PBXGroup;
+			children = (
+				04F41B6021DDE5330087A792 /* ViewController */,
+				04F41B5F21DDE52C0087A792 /* Model */,
+				04F41B5E21DDE5260087A792 /* View */,
+				04F41B5D21DDE51F0087A792 /* Manager */,
+			);
+			path = TLCamera;
+			sourceTree = "<group>";
+		};
+		04F41B5D21DDE51F0087A792 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		04F41B5E21DDE5260087A792 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		04F41B5F21DDE52C0087A792 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04F41B6021DDE5330087A792 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				04F41B6121DDE5640087A792 /* TLCameraViewController.h */,
+				04F41B6221DDE5640087A792 /* TLCameraViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		04F41B2D21DDE2CC0087A792 /* TLCamera */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04F41B4421DDE2CE0087A792 /* Build configuration list for PBXNativeTarget "TLCamera" */;
+			buildPhases = (
+				04F41B2A21DDE2CC0087A792 /* Sources */,
+				04F41B2B21DDE2CC0087A792 /* Frameworks */,
+				04F41B2C21DDE2CC0087A792 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TLCamera;
+			productName = TLCamera;
+			productReference = 04F41B2E21DDE2CC0087A792 /* TLCamera.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		04F41B2621DDE2CC0087A792 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = tinlin;
+				TargetAttributes = {
+					04F41B2D21DDE2CC0087A792 = {
+						CreatedOnToolsVersion = 9.3;
+					};
+				};
+			};
+			buildConfigurationList = 04F41B2921DDE2CC0087A792 /* Build configuration list for PBXProject "TLCamera" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 04F41B2521DDE2CC0087A792;
+			productRefGroup = 04F41B2F21DDE2CC0087A792 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				04F41B2D21DDE2CC0087A792 /* TLCamera */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		04F41B2C21DDE2CC0087A792 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F41B3E21DDE2CE0087A792 /* LaunchScreen.storyboard in Resources */,
+				04F41B3B21DDE2CE0087A792 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		04F41B2A21DDE2CC0087A792 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F41B5721DDE3A80087A792 /* UIAlertController+TLExtension.m in Sources */,
+				04F41B5A21DDE3A80087A792 /* BaseViewController.m in Sources */,
+				04F41B4121DDE2CE0087A792 /* main.m in Sources */,
+				04F41B3321DDE2CC0087A792 /* AppDelegate.m in Sources */,
+				04F41B6321DDE5640087A792 /* TLCameraViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		04F41B3C21DDE2CE0087A792 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				04F41B3D21DDE2CE0087A792 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		04F41B4221DDE2CE0087A792 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		04F41B4321DDE2CE0087A792 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		04F41B4521DDE2CE0087A792 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X82PP3A7WP;
+				GCC_PREFIX_HEADER = "${SRCROOT}/Macros/PrefixHeader.pch";
+				INFOPLIST_FILE = TLCamera/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinlin.TLCamera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		04F41B4621DDE2CE0087A792 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X82PP3A7WP;
+				GCC_PREFIX_HEADER = "${SRCROOT}/Macros/PrefixHeader.pch";
+				INFOPLIST_FILE = TLCamera/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinlin.TLCamera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		04F41B2921DDE2CC0087A792 /* Build configuration list for PBXProject "TLCamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04F41B4221DDE2CE0087A792 /* Debug */,
+				04F41B4321DDE2CE0087A792 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04F41B4421DDE2CE0087A792 /* Build configuration list for PBXNativeTarget "TLCamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04F41B4521DDE2CE0087A792 /* Debug */,
+				04F41B4621DDE2CE0087A792 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 04F41B2621DDE2CC0087A792 /* Project object */;
+}

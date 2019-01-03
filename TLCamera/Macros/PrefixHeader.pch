@@ -1,0 +1,22 @@
+//
+//  PrefixHeader.pch
+//  TinLin-XMPP
+//
+//  Created by Mac on 2018/12/18.
+//  Copyright © 2018 xinchenglong. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+#import "Header.h"
+#import "TLMarcos.h"
+#import "TLConstInline.h"
+
+#import "UIAlertController+TLExtension.h"
+
+
+#endif /* PrefixHeader_pch */
