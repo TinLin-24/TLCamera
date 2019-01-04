@@ -167,6 +167,25 @@
     }
 }
 
+- (void)startVideoRecorder {
+    self.movieWriterManager.currentDevice = self.backDevice;
+    self.movieWriterManager.currentOrientation = [self currentVideoOrientation];
+    __weak __typeof(self)weakSelf = self;
+    [self.movieWriterManager start:^(NSError * _Nonnull error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        NSLog(@"startVideoRecorder:%@",error);
+    }];
+}
+
+- (void)stopVideoRecorder {
+    __weak __typeof(self)weakSelf = self;
+    [self.movieWriterManager stop:^(NSURL *url, NSError *error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        NSLog(@"stopVideoRecorder:%@",url);
+        UISaveVideoAtPathToSavedPhotosAlbum(url.relativePath, nil, nil, nil);
+    }];
+}
+
 #pragma mark - AVCaptureVideoDataOutputSampleBufferDelegate & AVCaptureAudioDataOutputSampleBufferDelegate
 
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
@@ -180,6 +199,32 @@
     UIImage *image = [UIImage imageWithData:data];
     NSLog(@"image:%@", image);
     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+}
+
+#pragma mark - Section
+
+// 当前设备取向
+- (AVCaptureVideoOrientation)currentVideoOrientation {
+    
+    AVCaptureVideoOrientation orientation;
+    switch (self.motionManager.deviceOrientation) {
+        case UIDeviceOrientationPortrait:
+            orientation = AVCaptureVideoOrientationPortrait;
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            orientation = AVCaptureVideoOrientationLandscapeRight;
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            orientation = AVCaptureVideoOrientationLandscapeLeft;
+            break;
+        case UIDeviceOrientationPortraitUpsideDown:
+            orientation = AVCaptureVideoOrientationPortraitUpsideDown;
+            break;
+        default:
+            orientation = AVCaptureVideoOrientationPortrait;
+            break;
+    }
+    return orientation;
 }
 
 #pragma mark - Getter
