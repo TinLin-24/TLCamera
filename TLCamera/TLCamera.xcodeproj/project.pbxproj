@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0463470C21DF007E0043F505 /* TLMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463470B21DF007E0043F505 /* TLMotionManager.m */; };
+		0463470F21DF00990043F505 /* TLCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463470E21DF00990043F505 /* TLCaptureManager.m */; };
+		0463471521DF00D90043F505 /* TLMovieWriterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463471421DF00D90043F505 /* TLMovieWriterManager.m */; };
+		0463471F21DF3D5F0043F505 /* TLShutterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463471E21DF3D5F0043F505 /* TLShutterButton.m */; };
+		0463472221DF3E590043F505 /* TLCameraControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463472121DF3E590043F505 /* TLCameraControlView.m */; };
+		0463472521DF3FF60043F505 /* TLCameraConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463472421DF3FF60043F505 /* TLCameraConfig.m */; };
+		0463472821DF447A0043F505 /* UIView+TLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463472721DF447A0043F505 /* UIView+TLAdditions.m */; };
+		0463472B21DF45300043F505 /* UIColor+TLHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463472A21DF45300043F505 /* UIColor+TLHex.m */; };
 		04F41B3321DDE2CC0087A792 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F41B3221DDE2CC0087A792 /* AppDelegate.m */; };
 		04F41B3B21DDE2CE0087A792 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04F41B3A21DDE2CE0087A792 /* Assets.xcassets */; };
 		04F41B3E21DDE2CE0087A792 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F41B3C21DDE2CE0087A792 /* LaunchScreen.storyboard */; };
@@ -17,6 +25,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0463470A21DF007E0043F505 /* TLMotionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLMotionManager.h; sourceTree = "<group>"; };
+		0463470B21DF007E0043F505 /* TLMotionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLMotionManager.m; sourceTree = "<group>"; };
+		0463470D21DF00990043F505 /* TLCaptureManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLCaptureManager.h; sourceTree = "<group>"; };
+		0463470E21DF00990043F505 /* TLCaptureManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLCaptureManager.m; sourceTree = "<group>"; };
+		0463471321DF00D90043F505 /* TLMovieWriterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLMovieWriterManager.h; sourceTree = "<group>"; };
+		0463471421DF00D90043F505 /* TLMovieWriterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLMovieWriterManager.m; sourceTree = "<group>"; };
+		0463471621DF00FF0043F505 /* TLCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLCamera.h; sourceTree = "<group>"; };
+		0463471D21DF3D5F0043F505 /* TLShutterButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLShutterButton.h; sourceTree = "<group>"; };
+		0463471E21DF3D5F0043F505 /* TLShutterButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLShutterButton.m; sourceTree = "<group>"; };
+		0463472021DF3E590043F505 /* TLCameraControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLCameraControlView.h; sourceTree = "<group>"; };
+		0463472121DF3E590043F505 /* TLCameraControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLCameraControlView.m; sourceTree = "<group>"; };
+		0463472321DF3FF60043F505 /* TLCameraConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLCameraConfig.h; sourceTree = "<group>"; };
+		0463472421DF3FF60043F505 /* TLCameraConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLCameraConfig.m; sourceTree = "<group>"; };
+		0463472621DF447A0043F505 /* UIView+TLAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+TLAdditions.h"; sourceTree = "<group>"; };
+		0463472721DF447A0043F505 /* UIView+TLAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+TLAdditions.m"; sourceTree = "<group>"; };
+		0463472921DF45300043F505 /* UIColor+TLHex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+TLHex.h"; sourceTree = "<group>"; };
+		0463472A21DF45300043F505 /* UIColor+TLHex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TLHex.m"; sourceTree = "<group>"; };
 		04F41B2E21DDE2CC0087A792 /* TLCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TLCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F41B3121DDE2CC0087A792 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		04F41B3221DDE2CC0087A792 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -94,18 +119,14 @@
 		04F41B4C21DDE3A80087A792 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				04F41B4D21DDE3A80087A792 /* Extension */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		04F41B4D21DDE3A80087A792 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
 				04F41B4E21DDE3A80087A792 /* UIAlertController+TLExtension.h */,
 				04F41B5021DDE3A80087A792 /* UIAlertController+TLExtension.m */,
+				0463472621DF447A0043F505 /* UIView+TLAdditions.h */,
+				0463472721DF447A0043F505 /* UIView+TLAdditions.m */,
+				0463472921DF45300043F505 /* UIColor+TLHex.h */,
+				0463472A21DF45300043F505 /* UIColor+TLHex.m */,
 			);
-			path = Extension;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		04F41B5221DDE3A80087A792 /* Base */ = {
@@ -120,6 +141,7 @@
 		04F41B5C21DDE50B0087A792 /* TLCamera */ = {
 			isa = PBXGroup;
 			children = (
+				0463471621DF00FF0043F505 /* TLCamera.h */,
 				04F41B6021DDE5330087A792 /* ViewController */,
 				04F41B5F21DDE52C0087A792 /* Model */,
 				04F41B5E21DDE5260087A792 /* View */,
@@ -131,6 +153,12 @@
 		04F41B5D21DDE51F0087A792 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				0463470D21DF00990043F505 /* TLCaptureManager.h */,
+				0463470E21DF00990043F505 /* TLCaptureManager.m */,
+				0463471321DF00D90043F505 /* TLMovieWriterManager.h */,
+				0463471421DF00D90043F505 /* TLMovieWriterManager.m */,
+				0463470A21DF007E0043F505 /* TLMotionManager.h */,
+				0463470B21DF007E0043F505 /* TLMotionManager.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -138,6 +166,10 @@
 		04F41B5E21DDE5260087A792 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0463471D21DF3D5F0043F505 /* TLShutterButton.h */,
+				0463471E21DF3D5F0043F505 /* TLShutterButton.m */,
+				0463472021DF3E590043F505 /* TLCameraControlView.h */,
+				0463472121DF3E590043F505 /* TLCameraControlView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -145,6 +177,8 @@
 		04F41B5F21DDE52C0087A792 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0463472321DF3FF60043F505 /* TLCameraConfig.h */,
+				0463472421DF3FF60043F505 /* TLCameraConfig.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -229,8 +263,16 @@
 			files = (
 				04F41B5721DDE3A80087A792 /* UIAlertController+TLExtension.m in Sources */,
 				04F41B5A21DDE3A80087A792 /* BaseViewController.m in Sources */,
+				0463472821DF447A0043F505 /* UIView+TLAdditions.m in Sources */,
 				04F41B4121DDE2CE0087A792 /* main.m in Sources */,
+				0463470C21DF007E0043F505 /* TLMotionManager.m in Sources */,
+				0463472B21DF45300043F505 /* UIColor+TLHex.m in Sources */,
+				0463471F21DF3D5F0043F505 /* TLShutterButton.m in Sources */,
+				0463472221DF3E590043F505 /* TLCameraControlView.m in Sources */,
+				0463472521DF3FF60043F505 /* TLCameraConfig.m in Sources */,
+				0463470F21DF00990043F505 /* TLCaptureManager.m in Sources */,
 				04F41B3321DDE2CC0087A792 /* AppDelegate.m in Sources */,
+				0463471521DF00D90043F505 /* TLMovieWriterManager.m in Sources */,
 				04F41B6321DDE5640087A792 /* TLCameraViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,7 +408,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X82PP3A7WP;
 				GCC_PREFIX_HEADER = "${SRCROOT}/Macros/PrefixHeader.pch";
-				INFOPLIST_FILE = TLCamera/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -384,7 +426,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X82PP3A7WP;
 				GCC_PREFIX_HEADER = "${SRCROOT}/Macros/PrefixHeader.pch";
-				INFOPLIST_FILE = TLCamera/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

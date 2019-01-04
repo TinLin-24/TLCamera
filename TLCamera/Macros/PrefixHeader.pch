@@ -16,7 +16,10 @@
 #import "TLMarcos.h"
 #import "TLConstInline.h"
 
+#import "UIColor+TLHex.h"
+#import "UIView+TLAdditions.h"
 #import "UIAlertController+TLExtension.h"
 
+#import "TLCamera.h"
 
 #endif /* PrefixHeader_pch */
