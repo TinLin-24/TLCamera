@@ -8,6 +8,26 @@
 
 #import "TLCameraControlView.h"
 
+@interface TLCameraControlView (){
+    struct {
+        unsigned int didFlashLightAction : 1;
+        unsigned int didTorchLightAction : 1;
+        unsigned int didSwicthCameraAction : 1;
+        unsigned int didAutoFocusAndExposureAction : 1;
+        unsigned int didFocusAction : 1;
+        unsigned int didExposAction : 1;
+        unsigned int didZoomAction : 1;
+        unsigned int didCancelAction : 1;
+        unsigned int didTakePhotoAction : 1;
+        unsigned int didStopRecordVideoAction : 1;
+        unsigned int didStartRecordVideoAction : 1;
+        unsigned int didPreviewAction : 1;
+        unsigned int didDoneAction : 1;
+    }_delegateFlags;
+}
+
+@end
+
 @implementation TLCameraControlView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -94,8 +114,8 @@
         }
         case 1001:
         {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(swicthCameraAction:handle:)]) {
-                [self.delegate swicthCameraAction:self handle:^(NSError *error) {
+            if (_delegateFlags.didSwicthCameraAction) {
+                [self.delegate switchCameraAction:self handle:^(NSError *error) {
                     
                 }];
             }
@@ -103,7 +123,7 @@
         }
         case 1002:
         {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(torchLightAction:handle:)]) {
+            if (_delegateFlags.didTorchLightAction) {
                 [self.delegate torchLightAction:self handle:^(NSError *error) {
                     
                 }];
@@ -112,7 +132,7 @@
         }
         case 1003:
         {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(flashLightAction:handle:)]) {
+            if (_delegateFlags.didFlashLightAction) {
                 [self.delegate flashLightAction:self handle:^(NSError *error) {
                     
                 }];
@@ -121,7 +141,7 @@
         }
         case 1004:
         {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(autoFocusAndExposureAction:handle:)]) {
+            if (_delegateFlags.didAutoFocusAndExposureAction) {
                 [self.delegate autoFocusAndExposureAction:self handle:^(NSError *error) {
                     
                 }];
@@ -129,6 +149,25 @@
             break;
         }
     }
+}
+
+#pragma mark - Setter
+
+- (void)setDelegate:(id<TLCameraControlViewDelegate>)delegate {
+    _delegate = delegate;
+    _delegateFlags.didFlashLightAction = [delegate respondsToSelector:@selector(flashLightAction:handle:)];
+    _delegateFlags.didTorchLightAction = [delegate respondsToSelector:@selector(torchLightAction:handle:)];
+    _delegateFlags.didSwicthCameraAction = [delegate respondsToSelector:@selector(switchCameraAction:handle:)];
+    _delegateFlags.didAutoFocusAndExposureAction = [delegate respondsToSelector:@selector(autoFocusAndExposureAction:handle:)];
+    _delegateFlags.didFocusAction = [delegate respondsToSelector:@selector(focusAction:point:handle:)];
+    _delegateFlags.didExposAction = [delegate respondsToSelector:@selector(exposAction:point:handle:)];
+    _delegateFlags.didZoomAction = [delegate respondsToSelector:@selector(zoomAction:factor:)];
+    _delegateFlags.didCancelAction = [delegate respondsToSelector:@selector(cancelAction:)];
+    _delegateFlags.didTakePhotoAction = [delegate respondsToSelector:@selector(takePhotoAction:)];
+    _delegateFlags.didStopRecordVideoAction = [delegate respondsToSelector:@selector(stopRecordVideoAction:)];
+    _delegateFlags.didStartRecordVideoAction = [delegate respondsToSelector:@selector(startRecordVideoAction:)];
+    _delegateFlags.didPreviewAction = [delegate respondsToSelector:@selector(previewAction:)];
+    _delegateFlags.didDoneAction = [delegate respondsToSelector:@selector(doneAction:)];
 }
 
 @end

@@ -20,7 +20,7 @@
 - (void)torchLightAction:(TLCameraControlView *)controlView handle:(void(^)(NSError *error))handle;
 
 /// 转换摄像头
-- (void)swicthCameraAction:(TLCameraControlView *)controlView handle:(void(^)(NSError *error))handle;
+- (void)switchCameraAction:(TLCameraControlView *)controlView handle:(void(^)(NSError *error))handle;
 
 /// 自动聚焦曝光
 - (void)autoFocusAndExposureAction:(TLCameraControlView *)controlView handle:(void(^)(NSError *error))handle;

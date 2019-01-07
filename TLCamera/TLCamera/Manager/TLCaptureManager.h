@@ -24,9 +24,6 @@
 
 @property(nonatomic, weak) id<TLCaptureManagerDelegate> delegate;
 
-//-(instancetype) init __attribute__((unavailable("init not available, call sharedInstance instead")));
-//+(instancetype) new __attribute__((unavailable("new not available, call sharedInstance instead")));
-
 - (void)startRunningSession;
 
 - (void)stopRunningSession;
@@ -37,6 +34,6 @@
 
 - (void)stopVideoRecorder;
 
-- (void)swicthCameraAction;
+- (void)switchCamera;
 
 @end

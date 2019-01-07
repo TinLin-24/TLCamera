@@ -6,8 +6,8 @@
 //  Copyright © 2019 tinlin. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface TLCameraConfig : UIView
+@interface TLCameraConfig : NSObject
 
 @end

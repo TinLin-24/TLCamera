@@ -57,8 +57,8 @@
     [self.captureManager stopVideoRecorder];
 }
 
-- (void)swicthCameraAction:(TLCameraControlView *)controlView handle:(void (^)(NSError *))handle {
-    
+- (void)switchCameraAction:(TLCameraControlView *)controlView handle:(void (^)(NSError *))handle {
+    [self.captureManager switchCamera];
 }
 
 #pragma mark - Getter

@@ -200,11 +200,9 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 //                     AVVideoCompressionPropertiesKey: compression};
 //    }
     
-    CGFloat kScreenWidth = [UIScreen mainScreen].bounds.size.width;
-    CGFloat kScreenHeight = [UIScreen mainScreen].bounds.size.height;
     
     //写入视频大小
-    NSInteger numPixels = kScreenWidth * kScreenHeight;
+    NSInteger numPixels = TLMainScreenWidth * TLMainScreenHeight;
     
     //每像素比特
     CGFloat bitsPerPixel = 12.0;
@@ -215,11 +213,11 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
                                              AVVideoExpectedSourceFrameRateKey : @(15),
                                              AVVideoMaxKeyFrameIntervalKey : @(15),
                                              AVVideoProfileLevelKey : AVVideoProfileLevelH264BaselineAutoLevel };
-    CGFloat width = kScreenHeight;
-    CGFloat height = kScreenWidth;
-    if (TL_IS_IPHONE_XR) {
-        width = kScreenHeight - 146;
-        height = kScreenWidth;
+    CGFloat width = TLMainScreenWidth;
+    CGFloat height = TLMainScreenWidth;
+    if (TL_IS_ALIEN_SCREEN) {
+        width = TLMainScreenHeight - 146;
+        height = TLMainScreenWidth;
     }
     //视频属性
     NSDictionary *settings = @{

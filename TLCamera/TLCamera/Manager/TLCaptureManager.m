@@ -22,17 +22,11 @@
 
 @property(nonatomic, strong, readwrite) AVCaptureDevice *audioDevice;
 
-@property(nonatomic, strong, readwrite) AVCaptureDeviceInput *videoDeviceInput;
-
-@property(nonatomic, strong, readwrite) AVCaptureDeviceInput *audioDeviceInput;
-
 @property(nonatomic, strong, readwrite) AVCaptureConnection *videoConnection;
 
 @property(nonatomic, strong, readwrite) AVCaptureConnection *audioConnection;
 
-@property(nonatomic, strong, readwrite) AVCaptureVideoDataOutput *videoDataOutput;
-
-@property(nonatomic, strong, readwrite) AVCaptureAudioDataOutput *audioDataOutput;
+@property(nonatomic, strong, readwrite) AVCaptureDeviceInput *videoDeviceInput;
 
 @property(nonatomic, strong) dispatch_queue_t videoQueue;
 
@@ -42,6 +36,7 @@
 
 @property(nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
 
+// 标记是否在录制中
 @property(nonatomic, assign) BOOL recording;
 
 @end
@@ -71,41 +66,41 @@
 
 - (void)setupVideo {
     NSError *error = nil;
-    self.videoDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.backDevice error:&error];
+    AVCaptureDeviceInput *videoDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.backDevice error:&error];
     if (error) {
         NSLog(@"AVCaptureDeviceInput Video ERROR:%@",error);
         return;
     }
-    if ([self.captureSession canAddInput:self.videoDeviceInput]) {
-        [self.captureSession addInput:self.videoDeviceInput];
+    if ([self.captureSession canAddInput:videoDeviceInput]) {
+        [self.captureSession addInput:videoDeviceInput];
     }
-    self.videoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
-    self.videoDataOutput.alwaysDiscardsLateVideoFrames = YES; //立即丢弃旧帧，节省内存，默认YES
-    [self.videoDataOutput setSampleBufferDelegate:self queue:self.videoQueue];
-    if ([self.captureSession canAddOutput:self.videoDataOutput]) {
-        [self.captureSession addOutput:self.videoDataOutput];
+    AVCaptureVideoDataOutput *videoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
+    videoDataOutput.alwaysDiscardsLateVideoFrames = YES; //立即丢弃旧帧，节省内存，默认YES
+    [videoDataOutput setSampleBufferDelegate:self queue:self.videoQueue];
+    if ([self.captureSession canAddOutput:videoDataOutput]) {
+        [self.captureSession addOutput:videoDataOutput];
     }
-    
-    self.videoConnection = [self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo];
+    self.videoDeviceInput = videoDeviceInput;
+    self.videoConnection = [videoDataOutput connectionWithMediaType:AVMediaTypeVideo];
 }
 
 - (void)setupAudio {
     NSError *error = nil;
-    self.audioDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.audioDevice error:&error];
+    AVCaptureDeviceInput *audioDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.audioDevice error:&error];
     if (error) {
         NSLog(@"AVCaptureDeviceInput Audio ERROR:%@",error);
         return;
     }
-    if ([self.captureSession canAddInput:self.audioDeviceInput]) {
-        [self.captureSession addInput:self.audioDeviceInput];
+    if ([self.captureSession canAddInput:audioDeviceInput]) {
+        [self.captureSession addInput:audioDeviceInput];
     }
-    self.audioDataOutput = [[AVCaptureAudioDataOutput alloc] init];
-    [self.audioDataOutput setSampleBufferDelegate:self queue:self.videoQueue];
-    if ([self.captureSession canAddOutput:self.audioDataOutput]) {
-        [self.captureSession addOutput:self.audioDataOutput];
+    AVCaptureAudioDataOutput *audioDataOutput = [[AVCaptureAudioDataOutput alloc] init];
+    [audioDataOutput setSampleBufferDelegate:self queue:self.videoQueue];
+    if ([self.captureSession canAddOutput:audioDataOutput]) {
+        [self.captureSession addOutput:audioDataOutput];
     }
     
-    self.audioConnection = [self.audioDataOutput connectionWithMediaType:AVMediaTypeAudio];
+    self.audioConnection = [audioDataOutput connectionWithMediaType:AVMediaTypeAudio];
 }
 
 - (void)setupPhotoOutput {
@@ -170,9 +165,9 @@
 }
 
 - (void)startVideoRecorder {
+    self.recording = YES;
     self.movieWriterManager.currentDevice = self.backDevice;
     self.movieWriterManager.currentOrientation = [self currentVideoOrientation];
-    self.recording = YES;
     __weak __typeof(self)weakSelf = self;
     [self.movieWriterManager start:^(NSError * _Nonnull error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -181,13 +176,47 @@
 }
 
 - (void)stopVideoRecorder {
-    __weak __typeof(self)weakSelf = self;
     self.recording = NO;
+    __weak __typeof(self)weakSelf = self;
     [self.movieWriterManager stop:^(NSURL *url, NSError *error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         NSLog(@"stopVideoRecorder:%@",url);
         UISaveVideoAtPathToSavedPhotosAlbum(url.relativePath, nil, nil, nil);
     }];
+}
+
+- (void)switchCamera {
+    AVCaptureDevice *currentDevice = [self.videoDeviceInput device];
+    AVCaptureDevicePosition currentPosition = [currentDevice position];
+    AVCaptureDevice *toChangeDevice;
+    if (currentPosition == AVCaptureDevicePositionUnspecified || currentPosition == AVCaptureDevicePositionFront)
+    {
+        toChangeDevice = self.backDevice;
+    } else {
+        toChangeDevice = self.frontDevice;
+    }
+    
+    if (toChangeDevice == nil) {
+        return;
+    }
+    
+    NSError *error;
+    AVCaptureDeviceInput *toChangeDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:toChangeDevice error:&error];
+    if (error) {
+        NSLog(@"%@",error);
+    }
+    
+    //改变会话的配置前一定要先开启配置，配置完成后提交配置改变
+    [self.captureSession beginConfiguration];
+    //移除原有输入对象
+    [self.captureSession removeInput:self.videoDeviceInput];
+    //添加新的输入对象
+    if ([self.captureSession canAddInput:toChangeDeviceInput]) {
+        [self.captureSession addInput:toChangeDeviceInput];
+        self.videoDeviceInput = toChangeDeviceInput;
+    }
+    //提交会话配置
+    [self.captureSession commitConfiguration];
 }
 
 #pragma mark - AVCaptureVideoDataOutputSampleBufferDelegate & AVCaptureAudioDataOutputSampleBufferDelegate
@@ -244,21 +273,23 @@
 
 - (AVCaptureDevice *)frontDevice {
     if (!_frontDevice) {
-        _frontDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInDualCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+        // 前置摄像头
+        _frontDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
     }
     return _frontDevice;
 }
 
 - (AVCaptureDevice *)backDevice {
     if (!_backDevice) {
+        // 后置双摄像头
         _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInDualCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionBack];
         if (!_backDevice) {
-            // If the back dual camera is not available, default to the back wide angle camera.
+            // 如果后置双摄像头不可用，则默认为后置广角摄像头。
             _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionBack];
-            // In some cases where users break their phones, the back wide angle camera is not available. In this case, we should default to the front wide angle camera.
-            if (!_backDevice) {
-                _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
-            }
+        }
+        if (!_backDevice) {
+            // 在某些用户打破手机的情况下，后置广角相机无法使用。 在这种情况下，我们应默认为前广角相机。
+            _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
         }
     }
     return _backDevice;
