@@ -42,6 +42,8 @@
 
 @property(nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
 
+@property(nonatomic, assign) BOOL recording;
+
 @end
 
 @implementation TLCaptureManager
@@ -170,6 +172,7 @@
 - (void)startVideoRecorder {
     self.movieWriterManager.currentDevice = self.backDevice;
     self.movieWriterManager.currentOrientation = [self currentVideoOrientation];
+    self.recording = YES;
     __weak __typeof(self)weakSelf = self;
     [self.movieWriterManager start:^(NSError * _Nonnull error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -179,6 +182,7 @@
 
 - (void)stopVideoRecorder {
     __weak __typeof(self)weakSelf = self;
+    self.recording = NO;
     [self.movieWriterManager stop:^(NSURL *url, NSError *error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         NSLog(@"stopVideoRecorder:%@",url);
@@ -189,7 +193,9 @@
 #pragma mark - AVCaptureVideoDataOutputSampleBufferDelegate & AVCaptureAudioDataOutputSampleBufferDelegate
 
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    
+    if (self.recording) {
+        [self.movieWriterManager writeData:connection video:self.videoConnection audio:self.audioConnection buffer:sampleBuffer];
+    }
 }
 
 #pragma mark - AVCapturePhotoCaptureDelegate

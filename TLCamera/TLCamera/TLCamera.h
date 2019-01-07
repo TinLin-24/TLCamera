@@ -18,6 +18,7 @@
 
 #import "TLCameraViewController.h"
 
+#import "TLCameraControlView.h"
 #import "TLShutterButton.h"
 
 #import "TLCameraConfig.h"

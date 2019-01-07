@@ -8,9 +8,11 @@
 
 #import "TLCameraViewController.h"
 
-@interface TLCameraViewController ()
+@interface TLCameraViewController ()<TLCameraControlViewDelegate>
 
 @property(nonatomic, strong) TLCaptureManager *captureManager;
+
+@property(nonatomic, strong) TLCameraControlView *controlView;
 
 @end
 
@@ -23,6 +25,8 @@
     
     self.captureManager.previewLayer.frame = self.view.bounds;
     [self.view.layer addSublayer:self.captureManager.previewLayer];
+    
+    [self.view addSubview:self.controlView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -39,11 +43,39 @@
     return YES;
 }
 
+#pragma mark - TLCameraControlViewDelegate
+
+- (void)takePhotoAction:(TLCameraControlView *)controlView {
+    [self.captureManager takePicture];
+}
+
+- (void)startRecordVideoAction:(TLCameraControlView *)controlView {
+    [self.captureManager startVideoRecorder];
+}
+
+- (void)stopRecordVideoAction:(TLCameraControlView *)controlView {
+    [self.captureManager stopVideoRecorder];
+}
+
+- (void)swicthCameraAction:(TLCameraControlView *)controlView handle:(void (^)(NSError *))handle {
+    
+}
+
+#pragma mark - Getter
+
 - (TLCaptureManager *)captureManager {
     if (!_captureManager) {
         _captureManager = [[TLCaptureManager alloc] init];
     }
     return _captureManager;
+}
+
+- (TLCameraControlView *)controlView {
+    if (!_controlView) {
+        _controlView = [[TLCameraControlView alloc] initWithFrame:self.view.bounds];
+        _controlView.delegate = self;
+    }
+    return _controlView;
 }
 
 @end

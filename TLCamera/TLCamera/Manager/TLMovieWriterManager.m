@@ -39,6 +39,7 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
     if (self) {
         self.type = type;
         self.videoWriteQueue = dispatch_queue_create("com.tinlin.VideoWriteQueue", DISPATCH_QUEUE_SERIAL);
+        self.referenceOrientation = AVCaptureVideoOrientationPortrait;
     }
     return self;
 }
@@ -135,16 +136,25 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 
 // 音频源数据写入配置
 - (NSError *)setupAssetWriterAudioInput:(CMFormatDescriptionRef)currentFormatDescription {
-    size_t aclSize = 0;
-    const AudioStreamBasicDescription *currentASBD = CMAudioFormatDescriptionGetStreamBasicDescription(currentFormatDescription);
-    const AudioChannelLayout *channelLayout = CMAudioFormatDescriptionGetChannelLayout(currentFormatDescription,&aclSize);
-    NSData *dataLayout = aclSize > 0 ? [NSData dataWithBytes:channelLayout length:aclSize] : [NSData data];
-    NSDictionary *settings = @{AVFormatIDKey: [NSNumber numberWithInteger: kAudioFormatMPEG4AAC],
-                               AVSampleRateKey: [NSNumber numberWithFloat: currentASBD->mSampleRate],
-                               AVChannelLayoutKey: dataLayout,
-                               AVNumberOfChannelsKey: [NSNumber numberWithInteger: currentASBD->mChannelsPerFrame],
-                               AVEncoderBitRatePerChannelKey: [NSNumber numberWithInt: 64000]};
+//    size_t aclSize = 0;
+//    const AudioStreamBasicDescription *currentASBD = CMAudioFormatDescriptionGetStreamBasicDescription(currentFormatDescription);
+//    const AudioChannelLayout *channelLayout = CMAudioFormatDescriptionGetChannelLayout(currentFormatDescription,&aclSize);
+//    NSData *dataLayout = aclSize > 0 ? [NSData dataWithBytes:channelLayout length:aclSize] : [NSData data];
+//    NSDictionary *settings = @{AVFormatIDKey: @(kAudioFormatMPEG4AAC),
+//                               AVSampleRateKey: @(currentASBD->mSampleRate),
+//                               AVChannelLayoutKey: dataLayout,
+//                               AVNumberOfChannelsKey: @(currentASBD->mChannelsPerFrame),
+//                               AVEncoderBitRatePerChannelKey: @(64000)};
     
+    // 音频设置
+    NSDictionary *settings = @{
+                               AVEncoderBitRatePerChannelKey : @(28000),
+                               AVFormatIDKey : @(kAudioFormatMPEG4AAC),
+                               AVNumberOfChannelsKey : @(1),
+                               AVSampleRateKey : @(22050)
+                               };
+    
+
     if ([self.assetWriter canApplyOutputSettings:settings forMediaType: AVMediaTypeAudio]){
         self.audioInput = [AVAssetWriterInput assetWriterInputWithMediaType: AVMediaTypeAudio outputSettings:settings];
         self.audioInput.expectsMediaDataInRealTime = YES;
@@ -162,23 +172,64 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 // 视频源数据写入配置
 - (NSError *)setupAssetWriterVideoInput:(CMFormatDescriptionRef)currentFormatDescription {
     
-    CMVideoDimensions dimensions = CMVideoFormatDescriptionGetDimensions(currentFormatDescription);
-    NSUInteger numPixels = dimensions.width * dimensions.height;
-    CGFloat bitsPerPixel = numPixels < (640 * 480) ? 4.05 : 11.0;
-    NSDictionary *compression = @{AVVideoAverageBitRateKey: [NSNumber numberWithInteger: numPixels * bitsPerPixel],
-                                  AVVideoMaxKeyFrameIntervalKey: [NSNumber numberWithInteger:30]};
-    NSDictionary *settings;
-    if (@available(iOS 11.0, *)) {
-        settings = @{AVVideoCodecKey: AVVideoCodecTypeH264,
-                     AVVideoWidthKey: [NSNumber numberWithInteger:dimensions.width],
-                     AVVideoHeightKey: [NSNumber numberWithInteger:dimensions.height],
-                     AVVideoCompressionPropertiesKey: compression};
-    } else {
-        settings = @{AVVideoCodecKey: AVVideoCodecH264,
-                     AVVideoWidthKey: [NSNumber numberWithInteger:dimensions.width],
-                     AVVideoHeightKey: [NSNumber numberWithInteger:dimensions.height],
-                     AVVideoCompressionPropertiesKey: compression};
+//    CMVideoDimensions dimensions = CMVideoFormatDescriptionGetDimensions(currentFormatDescription);
+//
+//    //写入视频大小
+//    NSUInteger numPixels = dimensions.width * dimensions.height;
+//    //每像素比特
+//    CGFloat bitsPerPixel = numPixels < (640 * 480) ? 4.05 : 11.0;
+//    NSInteger bitsPerSecond = numPixels * bitsPerPixel;
+//
+//
+//    // 码率和帧率设置
+//    NSDictionary *compression = @{AVVideoAverageBitRateKey: @(bitsPerSecond),
+//                                  AVVideoMaxKeyFrameIntervalKey: @(15),
+//                                  AVVideoExpectedSourceFrameRateKey : @(15),
+//                                  AVVideoProfileLevelKey : AVVideoProfileLevelH264BaselineAutoLevel };
+//
+//    NSDictionary *settings;
+//    if (@available(iOS 11.0, *)) {
+//        settings = @{AVVideoCodecKey: AVVideoCodecTypeH264,
+//                     AVVideoWidthKey: [NSNumber numberWithInteger:dimensions.width],
+//                     AVVideoHeightKey: [NSNumber numberWithInteger:dimensions.height],
+//                     AVVideoCompressionPropertiesKey: compression};
+//    } else {
+//        settings = @{AVVideoCodecKey: AVVideoCodecH264,
+//                     AVVideoWidthKey: [NSNumber numberWithInteger:dimensions.width],
+//                     AVVideoHeightKey: [NSNumber numberWithInteger:dimensions.height],
+//                     AVVideoCompressionPropertiesKey: compression};
+//    }
+    
+    CGFloat kScreenWidth = [UIScreen mainScreen].bounds.size.width;
+    CGFloat kScreenHeight = [UIScreen mainScreen].bounds.size.height;
+    
+    //写入视频大小
+    NSInteger numPixels = kScreenWidth * kScreenHeight;
+    
+    //每像素比特
+    CGFloat bitsPerPixel = 12.0;
+    NSInteger bitsPerSecond = numPixels * bitsPerPixel;
+    
+    // 码率和帧率设置
+    NSDictionary *compressionProperties = @{ AVVideoAverageBitRateKey : @(bitsPerSecond),
+                                             AVVideoExpectedSourceFrameRateKey : @(15),
+                                             AVVideoMaxKeyFrameIntervalKey : @(15),
+                                             AVVideoProfileLevelKey : AVVideoProfileLevelH264BaselineAutoLevel };
+    CGFloat width = kScreenHeight;
+    CGFloat height = kScreenWidth;
+    if (TL_IS_IPHONE_XR) {
+        width = kScreenHeight - 146;
+        height = kScreenWidth;
     }
+    //视频属性
+    NSDictionary *settings = @{
+                               AVVideoCodecKey : AVVideoCodecTypeH264,
+                               AVVideoWidthKey : @(width * 2),
+                               AVVideoHeightKey : @(height * 2),
+                               AVVideoScalingModeKey : AVVideoScalingModeResizeAspectFill,
+                               AVVideoCompressionPropertiesKey : compressionProperties
+                               };
+    
     if ([self.assetWriter canApplyOutputSettings:settings forMediaType:AVMediaTypeVideo]){
         self.videoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:settings];
         self.videoInput.expectsMediaDataInRealTime = YES;

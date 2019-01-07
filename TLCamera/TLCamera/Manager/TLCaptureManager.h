@@ -37,4 +37,6 @@
 
 - (void)stopVideoRecorder;
 
+- (void)swicthCameraAction;
+
 @end
