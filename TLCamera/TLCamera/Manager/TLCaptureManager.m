@@ -189,33 +189,32 @@
     AVCaptureDevice *currentDevice = [self.videoDeviceInput device];
     AVCaptureDevicePosition currentPosition = [currentDevice position];
     AVCaptureDevice *toChangeDevice;
-    if (currentPosition == AVCaptureDevicePositionUnspecified || currentPosition == AVCaptureDevicePositionFront)
-    {
+    if (currentPosition == AVCaptureDevicePositionUnspecified || currentPosition == AVCaptureDevicePositionFront) {
         toChangeDevice = self.backDevice;
     } else {
         toChangeDevice = self.frontDevice;
     }
-    
     if (toChangeDevice == nil) {
         return;
     }
-    
     NSError *error;
     AVCaptureDeviceInput *toChangeDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:toChangeDevice error:&error];
     if (error) {
         NSLog(@"%@",error);
     }
     
-    //改变会话的配置前一定要先开启配置，配置完成后提交配置改变
+    // 改变会话的配置前一定要先开启配置，配置完成后提交配置改变
     [self.captureSession beginConfiguration];
-    //移除原有输入对象
+    // 移除原有输入对象
     [self.captureSession removeInput:self.videoDeviceInput];
-    //添加新的输入对象
+    // 添加新的输入对象
     if ([self.captureSession canAddInput:toChangeDeviceInput]) {
         [self.captureSession addInput:toChangeDeviceInput];
         self.videoDeviceInput = toChangeDeviceInput;
+    } else {
+        [self.captureSession addInput:self.videoDeviceInput];
     }
-    //提交会话配置
+    // 提交会话配置
     [self.captureSession commitConfiguration];
 }
 
