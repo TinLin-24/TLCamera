@@ -21,8 +21,6 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 
 @property(nonatomic, strong) dispatch_queue_t videoWriteQueue;
 
-@property(nonatomic, strong) NSURL *movieURL;
-
 @property(nonatomic, assign) TLAVFileType type;
 
 @property(nonatomic, assign) BOOL readyToRecordVideo;
@@ -47,18 +45,19 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 #pragma mark - Public
 
 - (void)start:(void(^)(NSError *error))handle {
-    self.movieURL = [self makeMovieURL];
-    dispatch_async(self.videoWriteQueue, ^{
-        NSError *error;
-        if (!self.assetWriter) {
-            AVFileType type = AVFileTypeMPEG4;
-            if (self.type == TLAVFileTypeMOV) {
-                type = AVFileTypeQuickTimeMovie;
-            }
-            self.assetWriter = [[AVAssetWriter alloc] initWithURL:self.movieURL fileType:type error:&error];
-        }
-        handle(error);
-    });
+//    self.movieURL = [self makeMovieURL];
+//    dispatch_async(self.videoWriteQueue, ^{
+//
+//        NSError *error;
+//        if (!self.assetWriter) {
+//            AVFileType type = AVFileTypeMPEG4;
+//            if (self.type == TLAVFileTypeMOV) {
+//                type = AVFileTypeQuickTimeMovie;
+//            }
+//            self.assetWriter = [[AVAssetWriter alloc] initWithURL:self.movieURL fileType:type error:&error];
+//        }
+//        handle(error);
+//    });
 }
 
 - (void)stop:(void(^)(NSURL *url, NSError *error))handle {
@@ -70,7 +69,7 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if (strongSelf.assetWriter.status == AVAssetWriterStatusCompleted) {
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    handle(strongSelf.movieURL, nil);
+                    handle(strongSelf.assetWriter.outputURL, nil);
                 });
             } else {
                 handle(nil, strongSelf.assetWriter.error);
@@ -81,7 +80,6 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 }
 
 - (void)writeData:(AVCaptureConnection *)connection video:(AVCaptureConnection*)video audio:(AVCaptureConnection *)audio buffer:(CMSampleBufferRef)buffer {
-    
     CFRetain(buffer);
     dispatch_async(self.videoWriteQueue, ^{
         if (connection == video){
@@ -180,10 +178,9 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 //    CGFloat bitsPerPixel = numPixels < (640 * 480) ? 4.05 : 11.0;
 //    NSInteger bitsPerSecond = numPixels * bitsPerPixel;
 //
-//
 //    // 码率和帧率设置
 //    NSDictionary *compression = @{AVVideoAverageBitRateKey: @(bitsPerSecond),
-//                                  AVVideoMaxKeyFrameIntervalKey: @(15),
+//                                  AVVideoMaxKeyFrameIntervalKey: @(30),
 //                                  AVVideoExpectedSourceFrameRateKey : @(15),
 //                                  AVVideoProfileLevelKey : AVVideoProfileLevelH264BaselineAutoLevel };
 //
@@ -199,34 +196,44 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 //                     AVVideoHeightKey: [NSNumber numberWithInteger:dimensions.height],
 //                     AVVideoCompressionPropertiesKey: compression};
 //    }
-    
-    
+
     //写入视频大小
     NSInteger numPixels = TLMainScreenWidth * TLMainScreenHeight;
-    
+
     //每像素比特
     CGFloat bitsPerPixel = 12.0;
     NSInteger bitsPerSecond = numPixels * bitsPerPixel;
-    
+
     // 码率和帧率设置
     NSDictionary *compressionProperties = @{ AVVideoAverageBitRateKey : @(bitsPerSecond),
                                              AVVideoExpectedSourceFrameRateKey : @(15),
-                                             AVVideoMaxKeyFrameIntervalKey : @(15),
+                                             AVVideoMaxKeyFrameIntervalKey : @(30),
                                              AVVideoProfileLevelKey : AVVideoProfileLevelH264BaselineAutoLevel };
-    CGFloat width = TLMainScreenWidth;
+    CGFloat width = TLMainScreenHeight;
     CGFloat height = TLMainScreenWidth;
     if (TL_IS_ALIEN_SCREEN) {
         width = TLMainScreenHeight - 146;
         height = TLMainScreenWidth;
     }
     //视频属性
-    NSDictionary *settings = @{
-                               AVVideoCodecKey : AVVideoCodecTypeH264,
-                               AVVideoWidthKey : @(width * 2),
-                               AVVideoHeightKey : @(height * 2),
-                               AVVideoScalingModeKey : AVVideoScalingModeResizeAspectFill,
-                               AVVideoCompressionPropertiesKey : compressionProperties
-                               };
+    NSDictionary *settings;
+    if (@available(iOS 11.0, *)) {
+        settings = @{
+                     AVVideoCodecKey : AVVideoCodecTypeH264,
+                     AVVideoWidthKey : @(width * 2),
+                     AVVideoHeightKey : @(height * 2),
+                     AVVideoScalingModeKey : AVVideoScalingModeResizeAspectFill,
+                     AVVideoCompressionPropertiesKey : compressionProperties
+                     };
+    } else {
+        settings = @{
+                     AVVideoCodecKey : AVVideoCodecH264,
+                     AVVideoWidthKey : @(width * 2),
+                     AVVideoHeightKey : @(height * 2),
+                     AVVideoScalingModeKey : AVVideoScalingModeResizeAspectFill,
+                     AVVideoCompressionPropertiesKey : compressionProperties
+                     };
+    }
     
     if ([self.assetWriter canApplyOutputSettings:settings forMediaType:AVMediaTypeVideo]){
         self.videoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:settings];
@@ -294,7 +301,7 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
  获取视频第一帧的图片
  */
 - (void)fetchMovieFirstNeedleHandler:(void (^)(UIImage *movieImage))handler {
-    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:self.movieURL options:nil];
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:self.assetWriter.outputURL options:nil];
     AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     generator.appliesPreferredTrackTransform = TRUE;
     CMTime thumbTime = CMTimeMakeWithSeconds(0, 60);
@@ -311,5 +318,68 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
     [generator generateCGImagesAsynchronouslyForTimes:
     [NSArray arrayWithObject:[NSValue valueWithCMTime:thumbTime]] completionHandler:generatorHandler];
 }
+
+#pragma mark - Getter
+
+- (AVAssetWriter *)assetWriter {
+    if (!_assetWriter) {
+        NSURL *movieURL = [self makeMovieURL];
+        NSError *error;
+        AVFileType type = AVFileTypeMPEG4;
+        if (self.type == TLAVFileTypeMOV) {
+            type = AVFileTypeQuickTimeMovie;
+        }
+        _assetWriter = [[AVAssetWriter alloc] initWithURL:movieURL fileType:type error:&error];
+    }
+    return _assetWriter;
+}
+
+#pragma mark - Key
+
+/**
+ AVVideoCompressionPropertiesKey:
+ {
+     AVVideoMaxKeyFrameIntervalKey: 关键帧最大间隔，1为每个都是关键帧，数值越大压缩率越高
+     AVVideoProfileLevelKey:
+     {
+         P-Baseline Profile：基本画质。支持I/P 帧，只支持无交错（Progressive）和CAVLC；
+         EP-Extended profile：进阶画质。支持I/P/B/SP/SI 帧，只支持无交错（Progressive）和CAVLC；
+         MP-Main profile：主流画质。提供I/P/B 帧，支持无交错（Progressive）和交错（Interlaced），也支持CAVLC 和CABAC 的支持；
+         HP-High profile：高级画质。在main Profile 的基础上增加了8×8内部预测、自定义量化、 无损视频编码和更多的YUV 格式；
+     }
+ }
+ */
+
+/**
+ 实时直播：
+ {
+    低清Baseline Level 1.3
+    标清Baseline Level 3
+    半高清Baseline Level 3.1
+    全高清Baseline Level 4.1
+ }
+ 存储媒体：
+ {
+    低清 Main Level 1.3
+    标清 Main Level 3
+    半高清 Main Level 3.1
+    全高清 Main Level 4.1
+ }
+ 高清存储：
+ {
+    半高清 High Level 3.1
+    全高清 High Level 4.1
+ }
+ iPad 支持：
+ {
+    Baseline Level 1-3.1
+    Main Level 1-3.1
+    High Level 1-3.1
+ }
+ iPhone 支持
+ {
+    H.264 视频最高可达 720p，每秒 30 帧，Main Profile level 3.1
+ }
+ */
 
 @end

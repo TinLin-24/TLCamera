@@ -32,7 +32,7 @@
 
 @property(nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
 
-@property(nonatomic, strong) AVCapturePhotoOutput *photoOutput;
+@property(nonatomic, strong) AVCapturePhotoOutput *photoOutput API_AVAILABLE(ios(10.0));
 
 @property(nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
 
@@ -112,11 +112,7 @@
     } else {
         self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
         NSDictionary *outputSettings;
-        if (@available(iOS 11.0, *)) {
-            outputSettings = @{AVVideoCodecKey:AVVideoCodecTypeJPEG};
-        } else {
-            outputSettings = @{AVVideoCodecKey:AVVideoCodecJPEG};
-        }
+        outputSettings = @{AVVideoCodecKey:AVVideoCodecJPEG};
         [self.stillImageOutput setOutputSettings:outputSettings];
         if ([self.captureSession canAddOutput:self.stillImageOutput]) {
             [self.captureSession addOutput:self.stillImageOutput];
@@ -146,7 +142,7 @@
 }
 
 - (void)takePicture {
-    if (@available(iOS 10.0, *)) {
+    if (@available(iOS 11.0, *)) {
         AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecTypeJPEG}];;
         [settings setFlashMode:AVCaptureFlashModeOff];
         [self.photoOutput capturePhotoWithSettings:settings delegate:self];
@@ -158,6 +154,9 @@
             if (imageDataSampleBuffer) {
                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                 UIImage *image = [UIImage imageWithData:imageData];
+                if (self.delegate && [self.delegate respondsToSelector:@selector(finishTakePicture:)]) {
+                    [self.delegate finishTakePicture:image];
+                }
                 //[self previewPhotoWithImage:image];
             }
         }];
@@ -168,9 +167,8 @@
     self.recording = YES;
     self.movieWriterManager.currentDevice = self.backDevice;
     self.movieWriterManager.currentOrientation = [self currentVideoOrientation];
-    __weak __typeof(self)weakSelf = self;
+
     [self.movieWriterManager start:^(NSError * _Nonnull error) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
         NSLog(@"startVideoRecorder:%@",error);
     }];
 }
@@ -182,6 +180,9 @@
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         NSLog(@"stopVideoRecorder:%@",url);
         UISaveVideoAtPathToSavedPhotosAlbum(url.relativePath, nil, nil, nil);
+        if (strongSelf.delegate && [strongSelf respondsToSelector:@selector(finishRecordVideo:videoPathUrl:)]) {
+            [strongSelf.delegate finishRecordVideo:nil videoPathUrl:url];
+        }
     }];
 }
 
@@ -228,9 +229,9 @@
 
 #pragma mark - AVCapturePhotoCaptureDelegate
 
-- (void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhoto:(nonnull AVCapturePhoto *)photo error:(nullable NSError *)error {
-    NSData *data = photo.fileDataRepresentation;
-    UIImage *image = [UIImage imageWithData:data];
+- (void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhoto:(nonnull AVCapturePhoto *)photo error:(nullable NSError *)error  API_AVAILABLE(ios(11.0)){
+    NSData *imageData = photo.fileDataRepresentation;
+    UIImage *image = [UIImage imageWithData:imageData];
     NSLog(@"image:%@", image);
     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
 }
@@ -239,7 +240,6 @@
 
 // 当前设备取向
 - (AVCaptureVideoOrientation)currentVideoOrientation {
-    
     AVCaptureVideoOrientation orientation;
     switch (self.motionManager.deviceOrientation) {
         case UIDeviceOrientationPortrait:
@@ -273,22 +273,35 @@
 - (AVCaptureDevice *)frontDevice {
     if (!_frontDevice) {
         // 前置摄像头
-        _frontDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+        if (@available(iOS 10.0, *)) {
+            _frontDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+        } else {
+            NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+            for (AVCaptureDevice *device in devices) {
+                if (device.position == AVCaptureDevicePositionFront) {
+                    _frontDevice = device;
+                }
+            }
+        }
     }
     return _frontDevice;
 }
 
 - (AVCaptureDevice *)backDevice {
     if (!_backDevice) {
-        // 后置双摄像头
-        _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInDualCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionBack];
-        if (!_backDevice) {
-            // 如果后置双摄像头不可用，则默认为后置广角摄像头。
-            _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionBack];
-        }
-        if (!_backDevice) {
-            // 在某些用户打破手机的情况下，后置广角相机无法使用。 在这种情况下，我们应默认为前广角相机。
-            _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+        if (@available(iOS 10.2, *)) {
+            // 后置双摄像头
+            _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInDualCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionBack];
+            if (!_backDevice) {
+                // 如果后置双摄像头不可用，则默认为后置广角摄像头。
+                _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionBack];
+            }
+            if (!_backDevice) {
+                // 在某些用户打破手机的情况下，后置广角相机无法使用。 在这种情况下，我们应默认为前广角相机。
+                _backDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+            }
+        } else {
+            _backDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         }
     }
     return _backDevice;
@@ -296,7 +309,7 @@
 
 - (AVCaptureDevice *)audioDevice {
     if (!_audioDevice) {
-        _audioDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInMicrophone mediaType:AVMediaTypeAudio position:AVCaptureDevicePositionUnspecified];
+        _audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
     }
     return _audioDevice;
 }

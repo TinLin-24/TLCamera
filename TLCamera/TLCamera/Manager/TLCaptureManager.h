@@ -14,7 +14,7 @@
 
 - (void)finishTakePicture:(UIImage *)photo;
 
-- (void)finishRecordVideo:(UIImage *)videoImage VideoPathUrl:(NSURL *)pathUrl;
+- (void)finishRecordVideo:(UIImage *)videoImage videoPathUrl:(NSURL *)pathUrl;
 
 @end
 
