@@ -10,4 +10,12 @@
 
 @interface TLCameraConfig : NSObject
 
+@property(nonatomic, strong) UIColor *progressColor;
+
+@property(nonatomic, assign) TLAVFileType fileType;
+
+@property(nonatomic, assign) BOOL enableTakePhoto;
+
+@property(nonatomic, assign) BOOL enableVideoRecord;
+
 @end

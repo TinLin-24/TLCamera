@@ -65,6 +65,14 @@
     };
     
     [self addSubview:shutterBtn];
+
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, TLMainScreenWidth, 20.f)];
+    textLabel.top = shutterBtn.top - 25.f;
+    textLabel.textAlignment = NSTextAlignmentCenter;
+    [textLabel setText:@"轻触拍照，长按摄像"];
+    [textLabel setTextColor:[UIColor whiteColor]];
+    [textLabel setFont:TLFont(16.f, NO)];
+    [self addSubview:textLabel];
     
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];

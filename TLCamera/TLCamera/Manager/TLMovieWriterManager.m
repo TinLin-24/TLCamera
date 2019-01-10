@@ -286,9 +286,13 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
     return angle;
 }
 
-- (NSURL *)makeMovieURL {
-    NSUUID *uuid = [NSUUID new];
-    NSString *fileName = [uuid.UUIDString stringByAppendingPathExtension:self.type];
+- (NSURL *)makeMovieURLWithFileExtension:(TLAVFileType)type {
+//    CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+//    NSString *uuidStr = (NSString *)CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, uuidRef));
+//    CFRelease(uuidRef);
+//    NSString *fileName = [uuidStr stringByAppendingPathExtension:type];
+
+    NSString *fileName = [[NSUUID UUID].UUIDString stringByAppendingPathExtension:type];
     NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
     return [NSURL fileURLWithPath:filePath];
 }
@@ -323,7 +327,7 @@ TLAVFileType const TLAVFileTypeMOV = @"mov";
 
 - (AVAssetWriter *)assetWriter {
     if (!_assetWriter) {
-        NSURL *movieURL = [self makeMovieURL];
+        NSURL *movieURL = [self makeMovieURLWithFileExtension:self.type];
         NSError *error;
         AVFileType type = AVFileTypeMPEG4;
         if (self.type == TLAVFileTypeMOV) {
