@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		044C87A2221AB387004A0C82 /* TLProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 044C87A1221AB387004A0C82 /* TLProgressView.m */; };
 		0463470C21DF007E0043F505 /* TLMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463470B21DF007E0043F505 /* TLMotionManager.m */; };
 		0463470F21DF00990043F505 /* TLCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463470E21DF00990043F505 /* TLCaptureManager.m */; };
 		0463471521DF00D90043F505 /* TLMovieWriterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0463471421DF00D90043F505 /* TLMovieWriterManager.m */; };
@@ -26,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		044C87A0221AB387004A0C82 /* TLProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLProgressView.h; sourceTree = "<group>"; };
+		044C87A1221AB387004A0C82 /* TLProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLProgressView.m; sourceTree = "<group>"; };
 		0463470A21DF007E0043F505 /* TLMotionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLMotionManager.h; sourceTree = "<group>"; };
 		0463470B21DF007E0043F505 /* TLMotionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLMotionManager.m; sourceTree = "<group>"; };
 		0463470D21DF00990043F505 /* TLCaptureManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLCaptureManager.h; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 				0463471E21DF3D5F0043F505 /* TLShutterButton.m */,
 				0463472021DF3E590043F505 /* TLCameraControlView.h */,
 				0463472121DF3E590043F505 /* TLCameraControlView.m */,
+				044C87A0221AB387004A0C82 /* TLProgressView.h */,
+				044C87A1221AB387004A0C82 /* TLProgressView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -270,6 +275,7 @@
 				04F41B5A21DDE3A80087A792 /* BaseViewController.m in Sources */,
 				0463472821DF447A0043F505 /* UIView+TLAdditions.m in Sources */,
 				04F41B4121DDE2CE0087A792 /* main.m in Sources */,
+				044C87A2221AB387004A0C82 /* TLProgressView.m in Sources */,
 				0463470C21DF007E0043F505 /* TLMotionManager.m in Sources */,
 				0475299121E3400600CB708C /* TLCameraManager.m in Sources */,
 				0463472B21DF45300043F505 /* UIColor+TLHex.m in Sources */,
